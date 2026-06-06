@@ -14,7 +14,7 @@
 
 ## Requirements
 
-- Python 3.12.x (>=3.10, <3.13)
+- Python 3.12.9
 - NVIDIA GPU with ≥8GB VRAM
 - ~5GB disk space for model weights
 
