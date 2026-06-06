@@ -15,7 +15,7 @@
 ## Requirements
 
 - Python 3.12.9
-- NVIDIA GPU with ≥8GB VRAM
+- NVIDIA GPU with ≥8GB VRAM (tested on RTX 5060 Laptop)
 - ~5GB disk space for model weights
 
 ## Installation
@@ -25,23 +25,29 @@
 git clone --recursive https://github.com/vino829/AI-Narrator.git
 cd AI-Narrator
 
-# Create virtual environment
-python3.12 -m venv .venv
-source .venv/bin/activate  # Linux/Mac
-# .venv\Scripts\activate   # Windows
+# One-click setup (installs venv + VoxCPM + dependencies)
+bash scripts/setup.sh          # Linux / macOS / Git Bash
+# .\scripts\setup.ps1          # PowerShell (Windows)
 
-# Install VoxCPM2
-pip install -e ./VoxCPM
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Download model weights
+# Download model weights (~5GB)
+source .venv/bin/activate      # or .venv\Scripts\activate on Windows
 python -c "
 from huggingface_hub import snapshot_download
 snapshot_download('openbmb/VoxCPM2', local_dir='./models/VoxCPM2')
 "
 ```
+
+<details>
+<summary>Manual installation</summary>
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+# .venv\Scripts\activate   # Windows
+pip install -e ./VoxCPM
+pip install -r requirements.txt
+```
+</details>
 
 ## Usage
 
@@ -79,6 +85,7 @@ python Narrator/cli.py test --text "測試文本" --voice-desc "(年輕女性)"
 AI Narrator/
   VoxCPM/           # Upstream TTS engine (submodule)
   Narrator/         # Project source code
+  scripts/          # Setup and utility scripts
   models/           # Model weights (not in git)
 ```
 

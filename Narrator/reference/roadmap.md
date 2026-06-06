@@ -10,20 +10,20 @@
 
 VoxCPM 要求 Python >=3.10, <3.13（目前 3.14.0 不相容）。
 
-- [ ]  安裝 Python 3.12.9
-- [ ]  建立 venv
+- [x]  安裝 Python 3.12.10
+- [x]  建立 venv
   ```bash
   cd "C:/Users/anf28/Desktop/AI Narrator"
   python3.12 -m venv .venv
   .venv\Scripts\activate    # Windows
   ```
-- [ ]  安裝 VoxCPM 及相依套件
+- [x]  安裝 VoxCPM 及相依套件
   ```bash
   pip install -e ./VoxCPM
   ```
 
   若 editable install 失敗，改用 `pip install ./VoxCPM`。
-- [ ]  安裝額外依賴
+- [x]  安裝額外依賴
   ```bash
   pip install soundfile numpy
   ```
@@ -89,7 +89,7 @@ import voxcpm; print(voxcpm.__version__)
 
 - 三個 wav 檔皆可正常播放
 - `test_clone.wav` 的音色與 `test_voice_design.wav` 相近
-- 記錄單句生成耗時（RTX 5090 Laptop 預期 RTF < 0.3）
+- 記錄單句生成耗時（RTX 5060 Laptop 預期 RTF < 0.5）
 
 ### 0.4 Voice Design 一致性實驗
 
@@ -424,7 +424,7 @@ python cli.py test \
 - 需要 5-10 分鐘該角色的高品質音頻（可從 Phase 2 的 reference cloning 成果中擷取）
 - 訓練設定：使用現有 `conf/voxcpm_v2/voxcpm_finetune_lora.yaml`
 - LoRA 權重熱切換：`model.load_lora()` / `model.unload_lora()`
-- VRAM 需求：LoRA 微調峰值約 16-24GB（RTX 5090 Laptop 16GB 可能需要降低 batch_size）
+- VRAM 需求：LoRA 微調峰值約 16-24GB（RTX 5060 Laptop 8GB 需要大幅降低 batch_size 或改用雲端 GPU）
 
 ### 4.4 多章節批次處理
 
