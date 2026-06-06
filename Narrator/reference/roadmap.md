@@ -51,7 +51,7 @@ import voxcpm; print(voxcpm.__version__)
 
 ### 0.3 推理冒煙測試
 
-- [ ]  執行最小 TTS 測試
+- [x]  執行最小 TTS 測試
   ```python
   from voxcpm import VoxCPM
   import soundfile as sf
@@ -64,7 +64,7 @@ import voxcpm; print(voxcpm.__version__)
   )
   sf.write("test_output.wav", wav, model.tts_model.sample_rate)
   ```
-- [ ]  測試 Voice Design 模式
+- [x]  測試 Voice Design 模式
   ```python
   wav = model.generate(
       text="(年輕女性，溫柔甜美的聲音)你好，歡迎收聽有聲小說。",
@@ -73,7 +73,7 @@ import voxcpm; print(voxcpm.__version__)
   )
   sf.write("test_voice_design.wav", wav, model.tts_model.sample_rate)
   ```
-- [ ]  測試 Controllable Cloning 模式
+- [x]  測試 Controllable Cloning 模式
   ```python
   # 用上一步生成的音頻作為 reference
   wav = model.generate(
