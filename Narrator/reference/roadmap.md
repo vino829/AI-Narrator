@@ -38,7 +38,7 @@ import voxcpm; print(voxcpm.__version__)
 
 ### 0.2 模型下載
 
-- [ ]  下載 VoxCPM2 模型權重
+- [x]  下載 VoxCPM2 模型權重
   ```python
   from huggingface_hub import snapshot_download
   snapshot_download("openbmb/VoxCPM2", local_dir="./models/VoxCPM2")
