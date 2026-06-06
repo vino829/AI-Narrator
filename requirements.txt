@@ -1,0 +1,9 @@
+# VoxCPM2 (install from local source)
+# pip install -e ./VoxCPM
+
+# Additional dependencies
+soundfile
+numpy
+huggingface_hub
+pyyaml
+tqdm
