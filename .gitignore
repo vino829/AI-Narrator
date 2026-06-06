@@ -15,6 +15,7 @@ models/
 Narrator/output/
 test_*.wav
 consistency_test_*.wav
+test_results/
 
 # IDE
 .vscode/

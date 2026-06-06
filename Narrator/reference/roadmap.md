@@ -95,7 +95,7 @@ import voxcpm; print(voxcpm.__version__)
 
 這步很關鍵——測試同一描述多次生成的聲音差異程度。
 
-- [ ]  用同一描述生成 5 次，比較一致性
+- [x]  用同一描述生成 5 次，比較一致性
   ```python
   desc = "(中年男性，沉穩的朗讀聲音)"
   for i in range(5):
@@ -106,9 +106,11 @@ import voxcpm; print(voxcpm.__version__)
       )
       sf.write(f"consistency_test_{i}.wav", wav, model.tts_model.sample_rate)
   ```
-- [ ]  人耳比較：5 個檔案的音色是否一致？
-- [ ]  結論記錄：Voice Design 是否可靠到直接用於每句生成？
-  - 若否（預期結果）：確認 Phase 2 的 reference cloning 策略是正確方向
+- [x]  人耳比較：5 個檔案的音色是否一致？
+  - 結果：完全不一致，甚至出現音質降低的情況
+- [x]  結論記錄：Voice Design 是否可靠到直接用於每句生成？
+  - 結論：不可靠。Phase 2 的 reference cloning 策略是正確方向
+  - 額外發現：情緒控制在 Cloning 模式下幾乎無效，詳見 `notes/phase0_experiments.md`
 
 **驗證方法：**
 主觀聽感。記錄結論到 `Narrator/notes/` 供後續參考。
@@ -426,13 +428,28 @@ python cli.py test \
 - LoRA 權重熱切換：`model.load_lora()` / `model.unload_lora()`
 - VRAM 需求：LoRA 微調峰值約 16-24GB（RTX 5060 Laptop 8GB 需要大幅降低 batch_size 或改用雲端 GPU）
 
-### 4.4 多章節批次處理
+### 4.4 段落選擇性重新生成
+
+- 選定特定句子/段落重新生成（不影響其他已完成段落）
+- 設計完整的品質修正流程：咬字偏移、發音模糊、音色跑偏、情緒不對等
+- Phase 0 實驗顯示生成結果有隨機性，此功能為必要項目
+
+### 4.5 情緒控制改進
+
+- Phase 0 實驗結論：Controllable Cloning 模式下情緒前綴幾乎無效
+- 可能方向：
+  - 為每個角色準備多個情緒版本的 seed audio（neutral / happy / sad / angry）
+  - LoRA 微調情緒表現力
+  - 探索 Ultimate Cloning 模式的情緒潛力
+- 詳見 `notes/phase0_experiments.md`
+
+### 4.6 多章節批次處理
 
 - 輸入一整本小說（多章節 JSON 或目錄結構）
 - 自動分章生成，輸出按章節組織的音頻檔
 - 全書拼接（含章節間停頓 / 章節提示音）
 
-### 4.5 音頻後處理
+### 4.7 音頻後處理
 
 - 背景音樂混合
 - 音量正規化（loudness normalization）
