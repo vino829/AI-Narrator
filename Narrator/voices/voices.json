@@ -1,18 +1,18 @@
 {
   "narrator": {
     "description": "成熟男性，沉穩的播音腔，語速適中",
-    "seed_audio": null
+    "seed_audio": "voices/narrator.wav"
   },
   "李明": {
     "description": "二十多歲的年輕男性，聲音溫和略帶憂鬱",
-    "seed_audio": null
+    "seed_audio": "voices/李明.wav"
   },
   "王芳": {
     "description": "二十多歲的年輕女性，聲音清脆明亮",
-    "seed_audio": null
+    "seed_audio": "voices/王芳.wav"
   },
   "老陳": {
     "description": "五十多歲的中年男性，聲音低沉渾厚，語速偏慢",
-    "seed_audio": null
+    "seed_audio": "voices/老陳.wav"
   }
 }

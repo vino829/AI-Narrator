@@ -10,20 +10,23 @@
 
 VoxCPM 要求 Python >=3.10, <3.13（目前 3.14.0 不相容）。
 
-- [x]  安裝 Python 3.12.10
-- [x]  建立 venv
+- [X]  安裝 Python 3.12.10
+- [X]  建立 venv
+
   ```bash
   cd "C:/Users/anf28/Desktop/AI Narrator"
   python3.12 -m venv .venv
   .venv\Scripts\activate    # Windows
   ```
-- [x]  安裝 VoxCPM 及相依套件
+- [X]  安裝 VoxCPM 及相依套件
+
   ```bash
   pip install -e ./VoxCPM
   ```
 
   若 editable install 失敗，改用 `pip install ./VoxCPM`。
-- [x]  安裝額外依賴
+- [X]  安裝額外依賴
+
   ```bash
   pip install soundfile numpy
   ```
@@ -38,7 +41,8 @@ import voxcpm; print(voxcpm.__version__)
 
 ### 0.2 模型下載
 
-- [x]  下載 VoxCPM2 模型權重
+- [X]  下載 VoxCPM2 模型權重
+
   ```python
   from huggingface_hub import snapshot_download
   snapshot_download("openbmb/VoxCPM2", local_dir="./models/VoxCPM2")
@@ -51,7 +55,7 @@ import voxcpm; print(voxcpm.__version__)
 
 ### 0.3 推理冒煙測試
 
-- [x]  執行最小 TTS 測試
+- [X]  執行最小 TTS 測試
   ```python
   from voxcpm import VoxCPM
   import soundfile as sf
@@ -64,7 +68,7 @@ import voxcpm; print(voxcpm.__version__)
   )
   sf.write("test_output.wav", wav, model.tts_model.sample_rate)
   ```
-- [x]  測試 Voice Design 模式
+- [X]  測試 Voice Design 模式
   ```python
   wav = model.generate(
       text="(年輕女性，溫柔甜美的聲音)你好，歡迎收聽有聲小說。",
@@ -73,7 +77,7 @@ import voxcpm; print(voxcpm.__version__)
   )
   sf.write("test_voice_design.wav", wav, model.tts_model.sample_rate)
   ```
-- [x]  測試 Controllable Cloning 模式
+- [X]  測試 Controllable Cloning 模式
   ```python
   # 用上一步生成的音頻作為 reference
   wav = model.generate(
@@ -95,7 +99,7 @@ import voxcpm; print(voxcpm.__version__)
 
 這步很關鍵——測試同一描述多次生成的聲音差異程度。
 
-- [x]  用同一描述生成 5 次，比較一致性
+- [X]  用同一描述生成 5 次，比較一致性
   ```python
   desc = "(中年男性，沉穩的朗讀聲音)"
   for i in range(5):
@@ -106,9 +110,9 @@ import voxcpm; print(voxcpm.__version__)
       )
       sf.write(f"consistency_test_{i}.wav", wav, model.tts_model.sample_rate)
   ```
-- [x]  人耳比較：5 個檔案的音色是否一致？
+- [X]  人耳比較：5 個檔案的音色是否一致？
   - 結果：完全不一致，甚至出現音質降低的情況
-- [x]  結論記錄：Voice Design 是否可靠到直接用於每句生成？
+- [X]  結論記錄：Voice Design 是否可靠到直接用於每句生成？
   - 結論：不可靠。Phase 2 的 reference cloning 策略是正確方向
   - 額外發現：情緒控制在 Cloning 模式下幾乎無效，詳見 `notes/phase0_experiments.md`
 
@@ -123,7 +127,7 @@ import voxcpm; print(voxcpm.__version__)
 
 ### 1.1 定義輸入格式
 
-- [ ]  設計 JSON schema
+- [X]  設計 JSON schema
 
 **小說輸入檔** (`input.json`)：
 
@@ -160,13 +164,13 @@ import voxcpm; print(voxcpm.__version__)
 - `text`：台詞/旁白文字（必填）
 - `emotion`：情緒描述，可選，會與角色 voice profile 的描述合併
 
-- [ ]  建立 1-2 個測試用 JSON（500-1000 字，3-5 個角色）
+- [X]  建立 1-2 個測試用 JSON（500-1000 字，3-5 個角色）
 
 **驗證方法：** JSON 可被 `json.load()` 正確讀取，schema 欄位完整。
 
 ### 1.2 角色聲音設定
 
-- [ ]  設計 voice profile 格式
+- [X]  設計 voice profile 格式
 
 **角色設定檔** (`voices.json`)：
 
@@ -191,7 +195,7 @@ import voxcpm; print(voxcpm.__version__)
 
 ### 1.3 核心合成腳本
 
-- [ ]  實作 `narrator.py`，核心邏輯：
+- [X]  實作 `narrator.py`，核心邏輯：
 
 ```
 載入模型
@@ -207,14 +211,14 @@ for each segment:
 輸出完整音頻
 ```
 
-- [ ]  靜音間隔策略：
+- [X]  靜音間隔策略：
 
   - 同角色連續句：300ms
   - 角色切換（對白→對白）：500ms
   - 旁白→對白 或 對白→旁白：600ms
   - 段落結束（句尾為句號且下一段是旁白）：800ms
-- [ ]  分段檔案命名：`output/segments/001_narrator.wav`, `002_liMing.wav`, ...
-- [ ]  完整輸出：`output/full_chapter.wav`
+- [X]  分段檔案命名：`output/segments/001_narrator.wav`, `002_liMing.wav`, ...
+- [X]  完整輸出：`output/full_chapter.wav`
 
 **驗證方法：**
 
@@ -225,9 +229,9 @@ for each segment:
 
 ### 1.4 基礎錯誤處理
 
-- [ ]  空文本跳過（log warning）
-- [ ]  單段生成失敗時：log error，插入靜音佔位，繼續處理剩餘段落
-- [ ]  生成完成後輸出摘要：總段數、成功/失敗數、總時長、總耗時
+- [X]  空文本跳過（log warning）
+- [X]  單段生成失敗時：log error，插入靜音佔位，繼續處理剩餘段落
+- [X]  生成完成後輸出摘要：總段數、成功/失敗數、總時長、總耗時
 
 **驗證方法：** 故意在 JSON 中放入一段空文本，確認不會中斷整個流程。
 
@@ -239,7 +243,7 @@ for each segment:
 
 ### 2.1 種子音頻生成工具
 
-- [ ]  實作 `seed_generator.py`：
+- [X]  實作 `seed_generator.py`：
 
   ```
   讀取 voices.json
@@ -248,7 +252,7 @@ for each segment:
       存為 voices/{role}_candidate_0.wav ~ _2.wav
       輸出提示：「請試聽並選擇最佳候選」
   ```
-- [ ]  候選音頻的文本內容需能展現角色特色：
+- [X]  候選音頻的文本內容需能展現角色特色：
 
   - 旁白：用一段典型的敘事文
   - 角色：用一段包含多種語氣的對白（平述 + 疑問 + 感嘆）
@@ -258,19 +262,18 @@ for each segment:
 
 ### 2.2 種子音頻確認與註冊
 
-- [ ]  實作選擇流程（CLI 互動或直接手動複製檔案）：
+- [X]  實作選擇流程（CLI 互動）：
   ```bash
-  # 手動：試聽後將最佳候選複製為正式種子
-  cp voices/narrator_candidate_1.wav voices/narrator.wav
+  python seed_generator.py --select
   ```
-- [ ]  更新 `voices.json` 中對應角色的 `seed_audio` 路徑
+- [X]  更新 `voices.json` 中對應角色的 `seed_audio` 路徑
   ```json
   "narrator": {
     "description": "成熟男性，沉穩的播音腔",
     "seed_audio": "voices/narrator.wav"
   }
   ```
-- [ ]  核心合成腳本 (`narrator.py`) 檢測到 `seed_audio` 後自動切換為 Controllable Cloning 模式
+- [X]  核心合成腳本 (`narrator.py`) 檢測到 `seed_audio` 後自動切換為 Controllable Cloning 模式
 
 **驗證方法：**
 
@@ -279,7 +282,7 @@ for each segment:
 
 ### 2.3 情緒疊加驗證
 
-- [ ]  測試 reference cloning + 情緒控制的搭配效果：
+- [X]  測試 reference cloning + 情緒控制的搭配效果：
   ```python
   # 保持音色，改變情緒
   for emotion in ["平靜", "開心", "憤怒", "悲傷", "驚訝"]:
@@ -289,17 +292,19 @@ for each segment:
           cfg_value=2.0,
       )
   ```
-- [ ]  記錄 `cfg_value` 對情緒表現力的影響：
+- [X]  記錄 `cfg_value` 對情緒表現力的影響：
   - cfg=1.5：更自由，情緒更明顯，但音色可能偏離
   - cfg=2.0：平衡點（預設值）
   - cfg=2.5：更貼合 reference，但情緒可能被壓制
-- [ ]  確定每個角色的最佳 `cfg_value`，記錄到 voices.json
+  - 結論同 Phase 0：Cloning 模式下情緒前綴幾乎無效，cfg 1.5-2.5 無顯著差異
+- [X]  確定每個角色的最佳 `cfg_value`，記錄到 voices.json
+  - 結論：統一使用預設 2.0，narrator.py 已支援角色級 cfg_value 欄位備用
 
 **驗證方法：** 不同情緒的音頻聽感上有情緒差異，但音色保持一致。找到 cfg_value 的甜蜜點。
 
 ### 2.4 聲音管理目錄結構
 
-- [ ]  最終結構：
+- [X]  最終結構：
   ```
   Narrator/
     voices/

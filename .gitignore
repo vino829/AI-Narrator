@@ -17,6 +17,12 @@ test_*.wav
 consistency_test_*.wav
 test_results/
 
+# Voice seed audios (generated, not tracked)
+Narrator/voices/*.wav
+
+# Experiment results
+Narrator/experiments/*_results/
+
 # IDE
 .vscode/
 .idea/

@@ -63,9 +63,22 @@ def load_input(input_path: str) -> dict:
 
 
 def load_voices(voices_path: str) -> dict:
-    """Load voice profiles."""
+    """Load voice profiles. Resolves relative seed_audio paths against
+    the parent directory of the voices file (i.e. Narrator/)."""
+    voices_file = Path(voices_path)
+    base_dir = voices_file.parent.parent  # voices.json is in voices/, base is Narrator/
+
     with open(voices_path, "r", encoding="utf-8") as f:
         voices = json.load(f)
+
+    # Resolve relative seed_audio paths to absolute
+    for role, profile in voices.items():
+        seed = profile.get("seed_audio")
+        if seed:
+            seed_path = Path(seed)
+            if not seed_path.is_absolute():
+                profile["seed_audio"] = str((base_dir / seed_path).resolve())
+
     log.info("Loaded %d voice profiles", len(voices))
     return voices
 
@@ -99,10 +112,11 @@ def generate_segment(model, segment: dict, voice: dict | None) -> np.ndarray:
     """Generate audio for a single segment."""
     prompt = build_text(segment, voice)
     seed_audio = voice.get("seed_audio") if voice else None
+    cfg = voice.get("cfg_value", 2.0) if voice else 2.0
 
     kwargs = {
         "text": prompt,
-        "cfg_value": 2.0,
+        "cfg_value": cfg,
         "inference_timesteps": 10,
     }
     if seed_audio:
