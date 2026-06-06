@@ -326,7 +326,7 @@ for each segment:
 
 ### 3.1 CLI 入口
 
-- [ ]  實作 `cli.py`，支持以下子命令：
+- [X]  實作 `cli.py`，支持以下子命令：
 
 ```bash
 # 生成有聲書（主要功能）
@@ -351,12 +351,12 @@ python cli.py test \
 
 ### 3.2 生成流程完善
 
-- [ ]  進度顯示：tqdm 進度條，顯示 `段落 X/Y, 角色: XXX`
-- [ ]  斷點續傳：
+- [X]  進度顯示：tqdm 進度條，顯示 `段落 X/Y, 角色: XXX`
+- [X]  斷點續傳：
   - 生成前檢查 `output/segments/` 中已有的分段檔案
   - 跳過已存在的分段（依檔名序號判斷）
   - 加 `--force` 旗標可強制全部重新生成
-- [ ]  生成結束後輸出報告：
+- [X]  生成結束後輸出報告：
   ```
   生成完成
   總段數: 142
@@ -369,13 +369,13 @@ python cli.py test \
 
 ### 3.3 輸出格式
 
-- [ ]  分段輸出：`output/segments/001_narrator.wav`, ...
-- [ ]  完整輸出：`output/{title}_{chapter}.wav`
-- [ ]  可選 MP3 輸出（依賴 ffmpeg 或 pydub）
+- [X]  分段輸出：`output/segments/001_narrator.wav`, ...
+- [X]  完整輸出：`output/{title}_{chapter}.wav`
+- [ ]  可選 MP3 輸出（依賴 ffmpeg 或 pydub）— 延後實作
 
 ### 3.4 設定檔
 
-- [ ]  支持 YAML 全局設定 (`config.yaml`)：
+- [X]  支持 YAML 全局設定 (`config.yaml`)：
   ```yaml
   model:
     path: ./models/VoxCPM2
@@ -396,7 +396,7 @@ python cli.py test \
     format: both          # wav / segments / both
     sample_rate: 48000
   ```
-- [ ]  CLI 參數覆蓋設定檔（CLI 優先）
+- [X]  CLI 參數覆蓋設定檔（CLI 優先）
 
 **驗證方法：**
 

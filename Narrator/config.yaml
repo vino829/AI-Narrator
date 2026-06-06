@@ -1,0 +1,17 @@
+model:
+  path: ./models/VoxCPM2
+  load_denoiser: false
+
+generation:
+  cfg_value: 2.0
+  inference_timesteps: 10
+
+silence:
+  same_role: 300          # ms
+  role_switch: 500
+  narration_switch: 600
+  paragraph_end: 800
+
+output:
+  format: both            # wav / segments / both
+  sample_rate: 48000
